@@ -1,0 +1,19 @@
+NO 36:
+162. List the emps whose grade is greater than the grade of Miller.
+     SELECT e.ename, e.sal, sg.grade
+     FROM emp e
+     JOIN salgrade sg ON e.sal BETWEEN sg.losal AND sg.hisal
+     WHERE e.sal > (SELECT sal FROM emp WHERE ename = 'MILLER')
+
+163. List the emps who are belongs Dallas or Chicago with the grade same as Adams or exp more than Smith.
+     SELECT e.ename, e.job, e.sal, e.deptno, sg.grade 
+     FROM emp e JOIN salgrade sg ON e.sal BETWEEN sg.losal AND sg.hisal 
+     WHERE (e.deptno = 20 OR e.deptno = 30) AND (e.job = (SELECT job FROM emp WHERE ename = 'ADAMS') 
+     AND sg.grade = (SELECT grade FROM salgrade WHERE losal <= (SELECT sal FROM emp WHERE ename = 'ADAMS')
+     AND hisal >= (SELECT sal FROM emp WHERE ename = 'ADAMS'))) OR (e.ename != 'ADAMS' AND e.sal >
+     (SELECT sal FROM emp WHERE ename = 'SMITH')) AND (e.deptno = (SELECT deptno FROM emp WHERE ename = 'DALLAS') 
+     OR e.deptno = (SELECT deptno FROM emp WHERE ename = 'CHICAGO')) ORDER BY e.ename;
+
+164. List the emps whose Sal is same as Ford or Blake.
+     select * from emp where sal = (select sal from emp where ename = 'FORD') 
+     select * from emp where sal = (select sal from emp where ename = 'BLAKE')
